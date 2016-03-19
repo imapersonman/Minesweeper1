@@ -7,24 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92137FC21C7D9CB30074958B /* SDL2_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 929C6E121C7D0AD200D71388 /* SDL2_ttf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		92137FC31C7D9CB30074958B /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 929C6E131C7D0AD200D71388 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		92137FC61C7D9D1A0074958B /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92137FC41C7D9D1A0074958B /* SDL2_ttf.framework */; };
+		92137FC71C7D9D1A0074958B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92137FC51C7D9D1A0074958B /* SDL2.framework */; };
 		929C6E0B1C7D0AB800D71388 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929C6E0A1C7D0AB800D71388 /* main.cpp */; };
+		92FEDFE21C7D3442003ABC2B /* Anonymice.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 92FEDFE11C7D3442003ABC2B /* Anonymice.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		929C6E051C7D0AB800D71388 /* CopyFiles */ = {
+		92137FC11C7D9CA30074958B /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			dstPath = Resources/Frameworks;
+			dstSubfolderSpec = 7;
 			files = (
+				92137FC21C7D9CB30074958B /* SDL2_ttf.framework in CopyFiles */,
+				92137FC31C7D9CB30074958B /* SDL2.framework in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		929C6E051C7D0AB800D71388 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = Resources/Fonts;
+			dstSubfolderSpec = 7;
+			files = (
+				92FEDFE21C7D3442003ABC2B /* Anonymice.ttf in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		92137FC41C7D9D1A0074958B /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = "../../Library/Developer/Xcode/DerivedData/Minesweeper1-dugjcfvdubcrjrahiyojhggzcwsb/Build/Products/Debug/Resources/Frameworks/SDL2_ttf.framework"; sourceTree = "<group>"; };
+		92137FC51C7D9D1A0074958B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = "../../Library/Developer/Xcode/DerivedData/Minesweeper1-dugjcfvdubcrjrahiyojhggzcwsb/Build/Products/Debug/Resources/Frameworks/SDL2.framework"; sourceTree = "<group>"; };
 		929C6E071C7D0AB800D71388 /* Minesweeper1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Minesweeper1; sourceTree = BUILT_PRODUCTS_DIR; };
 		929C6E0A1C7D0AB800D71388 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		929C6E111C7D0AD200D71388 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = /Library/Frameworks/SDL2_image.framework; sourceTree = "<absolute>"; };
+		929C6E121C7D0AD200D71388 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = /Library/Frameworks/SDL2_ttf.framework; sourceTree = "<absolute>"; };
+		929C6E131C7D0AD200D71388 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = /Library/Frameworks/SDL2.framework; sourceTree = "<absolute>"; };
+		92FEDFE11C7D3442003ABC2B /* Anonymice.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Anonymice.ttf; path = Fonts/Anonymice.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +55,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92137FC61C7D9D1A0074958B /* SDL2_ttf.framework in Frameworks */,
+				92137FC71C7D9D1A0074958B /* SDL2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +66,8 @@
 		929C6DFE1C7D0AB800D71388 = {
 			isa = PBXGroup;
 			children = (
+				92FEDFE31C7D347C003ABC2B /* Resources */,
+				929C6E171C7D0AD600D71388 /* Frameworks */,
 				929C6E091C7D0AB800D71388 /* Minesweeper1 */,
 				929C6E081C7D0AB800D71388 /* Products */,
 			);
@@ -62,6 +89,34 @@
 			path = Minesweeper1;
 			sourceTree = "<group>";
 		};
+		929C6E171C7D0AD600D71388 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				92137FC41C7D9D1A0074958B /* SDL2_ttf.framework */,
+				92137FC51C7D9D1A0074958B /* SDL2.framework */,
+				929C6E111C7D0AD200D71388 /* SDL2_image.framework */,
+				929C6E121C7D0AD200D71388 /* SDL2_ttf.framework */,
+				929C6E131C7D0AD200D71388 /* SDL2.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		92FEDFE31C7D347C003ABC2B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				92FEDFE41C7D3483003ABC2B /* Fonts */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		92FEDFE41C7D3483003ABC2B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				92FEDFE11C7D3442003ABC2B /* Anonymice.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -72,6 +127,7 @@
 				929C6E031C7D0AB800D71388 /* Sources */,
 				929C6E041C7D0AB800D71388 /* Frameworks */,
 				929C6E051C7D0AB800D71388 /* CopyFiles */,
+				92137FC11C7D9CA30074958B /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -207,6 +263,10 @@
 		929C6E0F1C7D0AB800D71388 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -214,6 +274,10 @@
 		929C6E101C7D0AB800D71388 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -237,6 +301,7 @@
 				929C6E101C7D0AB800D71388 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
