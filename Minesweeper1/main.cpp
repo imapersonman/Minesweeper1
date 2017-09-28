@@ -33,6 +33,11 @@ typedef struct
     int nMines;
 } Difficulty;
 
+typedef enum {
+    MouseMode_ClearMode,
+    MouseMode_FlagMode
+} MouseMode;
+
 typedef enum
 {
     ButtonState_None,
@@ -153,11 +158,15 @@ static std::vector<Button> launcherButtons;
 static std::vector<Button> gameButtons;
 static std::vector<Cell> gameCells;
 
+static MouseMode gMouseMode;
 static Uint32 gMouseState;
 static Vector2i gMousePosition;
 static bool gLeftMouseDown = false;
 static bool gRightMouseDown = false;
 static bool gMiddleMouseDown = false;
+// FUUUUUUUUUUUUCCKKK shitty key toggle implementation.
+static bool fPressed = false;
+static bool lastFPressed = false;
 static TTF_Font *gDefaultFont;
 static Vector2i gameWindowSize;
 static Cell defaultCell;
@@ -209,8 +218,28 @@ int main(int argc, const char * argv[])
                                 initLauncher();
                             }
                             break;
+
+                        case SDLK_f:
+                            if (gState == GameState_Game) {
+                                lastFPressed = fPressed;
+                                fPressed = true;
+                            }
+                            else {
+                            }
+                            break;
                             
                         default:
+                            break;
+                    }
+                    break;
+
+                case SDL_KEYUP:
+                    switch (event.key.keysym.sym) {
+                        case SDLK_f:
+                            if (gState == GameState_Game) {
+                                lastFPressed = fPressed;
+                                fPressed = false;
+                            }
                             break;
                     }
                     break;
@@ -436,6 +465,7 @@ static void initGame()
     gRightMouseDown = false;
     gMiddleMouseDown = false;
     gameCells.clear();
+    gMouseMode = MouseMode_ClearMode;
     
     int gameWidth = gDifficulty.nRows * CELL_WIDTH;
     int gameHeight = gDifficulty.nCols * CELL_HEIGHT + GAME_HEADER_OFFSET;
@@ -534,7 +564,29 @@ static void updateGame()
     {
         updateButton(gameButtons[buttonIndex]);
     }
-    
+
+    if (fPressed && !lastFPressed) {
+        if (gMouseMode == MouseMode_ClearMode) {
+            std::cout << "Switched to game mode: FLAG" << std::endl;
+            gMouseMode = MouseMode_FlagMode;
+        }
+        else if (gMouseMode == MouseMode_FlagMode) {
+            std::cout << " Switched to game mode: CLEAR" << std::endl;
+            gMouseMode = MouseMode_ClearMode;
+        }
+        lastFPressed = fPressed;
+    }
+
+#if 0
+    if (MouseMode_ClearMode) {
+        printf("gMouseMode: MouseMode_ClearMode\n");
+    }
+ 
+    if (MouseMode_FlagMode) {
+        printf("gMouseMode: MouseMode_FlagMode\n");
+    }
+#endif
+   
     if (mouseIsTouchingCell())
     {
         Cell &cell = getCellAtPosition(gMousePosition);
@@ -545,42 +597,36 @@ static void updateGame()
             {
                 if (mouseButtonDown(MouseButton_Left))
                 {
-                    if (cell.hasMine && !cell.hasFlag)
-                    {
-                        loseGame();
+                    if (gMouseMode == MouseMode_ClearMode) {
+                        std::cout << "Mode: MouseMode_ClearMode" << std::endl;
+                        if (cell.hasMine && !cell.hasFlag)
+                        {
+                            loseGame();
+                        }
+                        else if (!cell.hasFlag)
+                        {
+                            uncoverPartOfBoard(cell);
+                        }
+                        
+                        int nCells = gDifficulty.nCols * gDifficulty.nRows;
+                        
+                        if (nCells - uncoveredCells == gDifficulty.nMines)
+                        {
+                            winGame();
+                        }
                     }
-                    else if (!cell.hasFlag)
-                    {
-                        uncoverPartOfBoard(cell);
+                    else if (gMouseMode == MouseMode_FlagMode) {
+                        std::cout << "Mode: MouseMode_FlagMode" << std::endl;
+                        if (!cell.hadFlag)
+                        {
+                            cell.hasFlag = true;
+                        }
+                        
+                        if (cell.hadFlag)
+                        {
+                            cell.hasFlag = false;
+                        }
                     }
-                    
-                    int nCells = gDifficulty.nCols * gDifficulty.nRows;
-                    
-                    if (nCells - uncoveredCells == gDifficulty.nMines)
-                    {
-                        winGame();
-                    }
-                }
-                
-                if (mouseButtonDown(MouseButton_Right))
-                {
-                    if (!cell.hadFlag)
-                    {
-                        cell.hasFlag = true;
-                    }
-                    
-                    if (cell.hadFlag)
-                    {
-                        cell.hasFlag = false;
-                    }
-                }
-                else if (cell.hasFlag)
-                {
-                    cell.hadFlag = true;
-                }
-                else if (!cell.hasFlag)
-                {
-                    cell.hadFlag = false;
                 }
                 
                 break;
