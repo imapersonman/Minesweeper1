@@ -567,11 +567,9 @@ static void updateGame()
 
     if (fPressed && !lastFPressed) {
         if (gMouseMode == MouseMode_ClearMode) {
-            std::cout << "Switched to game mode: FLAG" << std::endl;
             gMouseMode = MouseMode_FlagMode;
         }
         else if (gMouseMode == MouseMode_FlagMode) {
-            std::cout << " Switched to game mode: CLEAR" << std::endl;
             gMouseMode = MouseMode_ClearMode;
         }
         lastFPressed = fPressed;
@@ -588,7 +586,6 @@ static void updateGame()
                 if (mouseButtonDown(MouseButton_Left))
                 {
                     if (gMouseMode == MouseMode_ClearMode) {
-                        std::cout << "Mode: MouseMode_ClearMode" << std::endl;
                         if (cell.hasMine && !cell.hasFlag)
                         {
                             loseGame();
@@ -606,7 +603,6 @@ static void updateGame()
                         }
                     }
                     else if (gMouseMode == MouseMode_FlagMode) {
-                        std::cout << "Mode: MouseMode_FlagMode" << std::endl;
                         if (cell.hadFlag) {
                             cell.hasFlag = false;
                         }
@@ -781,8 +777,12 @@ static void renderGame()
             CELL_WIDTH,
             CELL_HEIGHT
         };
-        
-        SDL_SetRenderDrawColor(gCurrentRenderer, 255, 255, 255, 63);
+        // Mouse Rect Color.  Laziness.
+        SDL_Color mrc = { 255, 255, 0 };
+        if (gMouseMode == MouseMode_ClearMode) {
+            mrc = { 255, 0, 0 };
+        }
+        SDL_SetRenderDrawColor(gCurrentRenderer, mrc.r, mrc.g, mrc.b, 63);
         SDL_RenderFillRect(gCurrentRenderer, &mouseRect);
     }
 }
