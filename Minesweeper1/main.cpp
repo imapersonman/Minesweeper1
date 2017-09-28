@@ -577,16 +577,6 @@ static void updateGame()
         lastFPressed = fPressed;
     }
 
-#if 0
-    if (MouseMode_ClearMode) {
-        printf("gMouseMode: MouseMode_ClearMode\n");
-    }
- 
-    if (MouseMode_FlagMode) {
-        printf("gMouseMode: MouseMode_FlagMode\n");
-    }
-#endif
-   
     if (mouseIsTouchingCell())
     {
         Cell &cell = getCellAtPosition(gMousePosition);
@@ -617,15 +607,20 @@ static void updateGame()
                     }
                     else if (gMouseMode == MouseMode_FlagMode) {
                         std::cout << "Mode: MouseMode_FlagMode" << std::endl;
-                        if (!cell.hadFlag)
-                        {
-                            cell.hasFlag = true;
-                        }
-                        
-                        if (cell.hadFlag)
-                        {
+                        if (cell.hadFlag) {
                             cell.hasFlag = false;
                         }
+                        else {
+                            cell.hasFlag = true;
+                        }
+                    }
+                }
+                else {
+                    if (cell.hasFlag) {
+                        cell.hadFlag = true;
+                    }
+                    else {
+                        cell.hadFlag = false;
                     }
                 }
                 
@@ -695,13 +690,27 @@ static void render()
             renderLauncher();
             break;
             
-        case GameState_Game:
+        case GameState_Game: {
             renderText("Press Enter to Restart", {
                 gameWindowSize.x / 2,
                 8
             }, { 255, 255, 255 });
+            std::string mouseMode;
+            if (gMouseMode == MouseMode_FlagMode) {
+                mouseMode = "Flag";
+            }
+            else {
+                mouseMode = "Clear";
+            }
+            // Ahh this is gross
+            // TODO: Change 'MouseMode_*' and 'MouseMode" to 
+            //       'ClickMode_*' and 'ClickMode'.
+            renderText(std::string("Click Mode: ").append(mouseMode).c_str(), {
+                gameWindowSize.x / 2,
+                22
+            }, { 255, 255, 255 });
             renderGame();
-            break;
+        } break;
             
         case GameState_Lost:
             renderGame();
@@ -941,7 +950,28 @@ static bool mouseOverButton(Button button)
             gMousePosition.y > top && gMousePosition.y < bottom);
 }
 
-int leftCount = 0;
+static bool mouseButtonUp(MouseButton mouseButton)
+{
+    switch (mouseButton)
+    {
+        case MouseButton_Left:
+            return !gLeftMouseDown;
+            break;
+            
+        case MouseButton_Right:
+            return !gRightMouseDown;
+            break;
+            
+        case MouseButton_Center:
+            return !gMiddleMouseDown;
+            break;
+            
+        default:
+            return false;
+            break;
+    }
+}
+
 static bool mouseButtonDown(MouseButton mouseButton)
 {
     switch (mouseButton)
