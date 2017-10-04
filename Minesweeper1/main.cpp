@@ -17,29 +17,51 @@
 
 static GameState gState;
 static bool gRunning = false;
-static SDL_Window *gLauncherWindow = nullptr;
-static SDL_Window *gGameWindow = nullptr;
-static SDL_Renderer *gLauncherRenderer = nullptr;
-static SDL_Renderer *gGameRenderer = nullptr;
-static SDL_Renderer *gCurrentRenderer = nullptr;
 static Difficulty gDifficulty;
 
+// Launcher View
+static SDL_Window *gLauncherWindow = nullptr;
+static SDL_Renderer *gLauncherRenderer = nullptr;
 static std::vector<Button> launcherButtons;
+
+// Game View
+static Vector2i gameWindowSize;
+static SDL_Window *gGameWindow = nullptr;
+static SDL_Renderer *gGameRenderer = nullptr;
 static std::vector<Button> gameButtons;
+
+// Global
+static SDL_Renderer *gCurrentRenderer = nullptr;
+
+// View
 static std::vector<Cell> gameCells;
 
+// Mouse fields
 static MouseMode gMouseMode;
 static Uint32 gMouseState;
 static Vector2i gMousePosition;
 static bool gLeftMouseDown = false;
 static bool gRightMouseDown = false;
 static bool gMiddleMouseDown = false;
-// FUUUUUUUUUUUUCCKKK shitty key toggle implementation.
+// Mouse::init
+// Mouse::getState() for internal use
+// Mouse::getPosition()
+// Mouse::leftButtonDown()
+// Mouse::rightButtonDown()
+// Mouse::middleButtonDown() probably not needed
+
+// Keyboard
 static bool fPressed = false;
 static bool lastFPressed = false;
+
+// Font
 static TTF_Font *gDefaultFont;
-static Vector2i gameWindowSize;
+
+// I don't know what this is for
+// Should be a static method
 static Cell defaultCell;
+
+// Game state
 static int uncoveredCells = 0;
 static Uint32 gTime = 0;
 

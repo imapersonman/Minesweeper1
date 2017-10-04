@@ -97,37 +97,56 @@ static const int ADJ_MINE_6 = 6;
 static const int ADJ_MINE_7 = 7;
 static const int ADJ_MINE_8 = 8;
 
+// Global
 static void init();
-static void initLauncher();
-static void initGame();
 static void quit();
-static void quitLauncher();
-static void quitGame();
 static void update();
-static void updateLauncher();
-static void updateGame();
-static void updateButton(Button &button);
 static void render();
+
+// Launcher/Game should implement some "State" interface that has yet to be made
+
+// Launcher
+static void initLauncher();
+static void quitLauncher();
+static void updateLauncher();
 static void renderLauncher();
+
+// Game
+static void initGame();
+static void quitGame();
+static void updateGame();
 static void renderGame();
-static void renderButton(Button button);
-static void renderText(const char *text, Vector2i position, SDL_Color color);
-static void renderCell(Cell cell);
-static bool mouseOverButton(Button button);
-static bool mouseButtonDown(MouseButton mouseButton);
-static TTF_Font *loadFont(const char *path, int ptsize);
 static void setDifficulty(Difficulty difficulty);
 static Cell &getCellAtPosition(Vector2i position);
-static int get1dIndexFor2dIndex(Vector2i index2d, Vector2i arraySize);
-static bool mouseIsTouchingCell();
 static void putMinesInNRandomCells(int nCells);
-static int random(int min, int max);
-static SDL_Color getColorForAdjacentMineCount(int adjMineCount);
 static void loseGame();
 static void revealMines();
 static void assignAdjacentMineCounts(Cell &rootCell);
-static void uncoverPartOfBoard(Cell &rootCell);
 static void assignCellsAdjacentMineCounts();
 static Cell &getCellAtBlockPosition(Vector2i position);
 static void winGame();
+// I don't like that this is in game.  Maybe pass in a mouse?  Use mouseWithinBounds?
+static bool mouseIsTouchingCell();
+static void uncoverPartOfBoard(Cell &rootCell);
 
+// Button
+static void updateButton(Button &button);
+static void renderButton(Button button);
+
+// Font
+static TTF_Font *loadFont(const char *path, int ptsize);
+static void renderText(const char *text, Vector2i position, SDL_Color color);
+
+// Cell
+static void renderCell(Cell cell);
+
+// Mouse
+// I might change this signature depending on where it's being called
+static bool mouseOverButton(Button button);
+static bool mouseButtonDown(MouseButton mouseButton);
+
+// Utility
+static int get1dIndexFor2dIndex(Vector2i index2d, Vector2i arraySize);
+static int random(int min, int max);
+// This only kind of goes in Utility (Game?)
+static SDL_Color getColorForAdjacentMineCount(int adjMineCount);
