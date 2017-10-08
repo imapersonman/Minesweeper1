@@ -55,6 +55,10 @@ static bool gMiddleMouseDown = false;
 // Keyboard
 static bool fPressed = false;
 static bool lastFPressed = false;
+static bool jPressed = false;
+static bool lastJPressed = false;
+static bool kPressed = false;
+static bool lastKPressed = false;
 
 // Font
 static TTF_Font *gDefaultFont;
@@ -129,9 +133,18 @@ int main(int argc, const char * argv[])
                                 lastFPressed = fPressed;
                                 fPressed = true;
                             }
-                            else {
-                            }
                             break;
+
+                        case SDLK_j:
+                            if (gState == GameState_Game) {
+                                lastJPressed = jPressed;
+                                jPressed = true;
+                            }
+                        case SDLK_k:
+                            if (gState == GameState_Game) {
+                                lastKPressed = kPressed;
+                                kPressed = true;
+                            }
                             
                         default:
                             break;
@@ -146,6 +159,16 @@ int main(int argc, const char * argv[])
                                 fPressed = false;
                             }
                             break;
+                        case SDLK_j:
+                            if (gState == GameState_Game) {
+                                lastJPressed = jPressed;
+                                jPressed = false;
+                            }
+                        case SDLK_k:
+                            if (gState == GameState_Game) {
+                                lastKPressed = jPressed;
+                                kPressed = false;
+                            }
                     }
                     break;
                     
@@ -488,6 +511,33 @@ static void updateGame()
         {
             case CellState_Closed:
             {
+                if (jPressed && !lastJPressed) {
+                    if (cell.hasMine && !cell.hasFlag) {
+                        loseGame();
+                    }
+                    else if (!cell.hasFlag) {
+                        uncoverPartOfBoard(cell);
+                    }
+
+                    int nCells = gDifficulty.nCols * gDifficulty.nRows;
+                    if (nCells - uncoveredCells == gDifficulty.nMines) {
+                        winGame();
+                    }
+                    lastJPressed = jPressed;
+                }
+                if (kPressed && !lastKPressed) {
+                    if (cell.hasFlag) {
+                        cell.hasFlag = false;
+                    }
+                    else if (cell.hadFlag) {
+                        cell.hadFlag = false;
+                    }
+                    else {
+                        cell.hasFlag = true;
+                    }
+                    lastKPressed = kPressed;
+                }
+#if 0
                 if (mouseButtonDown(MouseButton_Left))
                 {
                     if (gMouseMode == MouseMode_ClearMode) {
@@ -526,6 +576,7 @@ static void updateGame()
                 }
                 
                 break;
+#endif
             }
                 
             case CellState_Open:
@@ -603,13 +654,6 @@ static void render()
             else {
                 mouseMode = "Clear";
             }
-            // Ahh this is gross
-            // TODO: Change 'MouseMode_*' and 'MouseMode" to 
-            //       'ClickMode_*' and 'ClickMode'.
-            renderText(std::string("Click Mode: ").append(mouseMode).c_str(), {
-                gameWindowSize.x / 2,
-                22
-            }, { 255, 255, 255 });
             renderGame();
         } break;
             
@@ -683,10 +727,7 @@ static void renderGame()
             CELL_HEIGHT
         };
         // Mouse Rect Color.  Laziness.
-        SDL_Color mrc = { 255, 255, 0 };
-        if (gMouseMode == MouseMode_ClearMode) {
-            mrc = { 255, 0, 0 };
-        }
+        SDL_Color mrc = { 255, 255, 255 };
         SDL_SetRenderDrawColor(gCurrentRenderer, mrc.r, mrc.g, mrc.b, 63);
         SDL_RenderFillRect(gCurrentRenderer, &mouseRect);
     }
