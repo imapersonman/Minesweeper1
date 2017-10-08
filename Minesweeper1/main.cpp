@@ -29,6 +29,9 @@ static Vector2i gameWindowSize;
 static SDL_Window *gGameWindow = nullptr;
 static SDL_Renderer *gGameRenderer = nullptr;
 static std::vector<Button> gameButtons;
+// Maybe I should call this field something else.
+// It definitely belongs in Game, though
+static MouseMode gMouseMode;
 
 // Global
 static SDL_Renderer *gCurrentRenderer = nullptr;
@@ -37,7 +40,6 @@ static SDL_Renderer *gCurrentRenderer = nullptr;
 static std::vector<Cell> gameCells;
 
 // Mouse fields
-static MouseMode gMouseMode;
 static Uint32 gMouseState;
 static Vector2i gMousePosition;
 static bool gLeftMouseDown = false;
@@ -90,6 +92,14 @@ int main(int argc, const char * argv[])
     
     while (gRunning)
     {
+        // How should States deal with events?
+        // Each State should have an events Map.
+        // Each value in the events map should have an anonymous function:
+        // Before each update, the events map is looped through, calling the event's anonymous
+        // function if the event occurred.
+        // That method might be overcomplicated for what this is. Not sure.
+        // What if each state is passed a keyboard and mouse in their update methods?
+        // That would simplify a lot of things.
         while (SDL_PollEvent(&event))
         {
             switch (event.type)
@@ -102,6 +112,9 @@ int main(int argc, const char * argv[])
                     switch (event.key.keysym.sym)
                     {
                         case SDLK_RETURN:
+                            // This is confusing since "Game" has substates
+                            // Add win boolean.  If the game ended and win is true, win
+                            //                   If the game ended and win is false, lose
                             if (gState == GameState_Lost ||
                                 gState == GameState_Win ||
                                 gState == GameState_Game)

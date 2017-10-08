@@ -6,6 +6,8 @@ typedef struct
 
 typedef enum
 {
+    // There should only be GameState_Launcher and GameState_Game
+    // GameState_Lost and GameState_Win (should be GameState_Won) are substates of GameState_Game
     GameState_Launcher,
     GameState_Game,
     GameState_Lost,
@@ -37,6 +39,7 @@ typedef struct
     Vector2i size;
     Vector2i position;
     ButtonState state;
+    // Could also use a function override but whatevs
     std::function<void()> pressedCallback;
 } Button;
 
@@ -50,6 +53,7 @@ typedef struct
 {
     CellState state = CellState_Closed;
     Vector2i position;
+    // This is sooooooooo confusing.
     bool hasMine = false;
     bool hasFlag = false;
     bool hadFlag = false;
