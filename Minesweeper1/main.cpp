@@ -537,46 +537,6 @@ static void updateGame()
                     }
                     lastKPressed = kPressed;
                 }
-#if 0
-                if (mouseButtonDown(MouseButton_Left))
-                {
-                    if (gMouseMode == MouseMode_ClearMode) {
-                        if (cell.hasMine && !cell.hasFlag)
-                        {
-                            loseGame();
-                        }
-                        else if (!cell.hasFlag)
-                        {
-                            uncoverPartOfBoard(cell);
-                        }
-                        
-                        int nCells = gDifficulty.nCols * gDifficulty.nRows;
-                        
-                        if (nCells - uncoveredCells == gDifficulty.nMines)
-                        {
-                            winGame();
-                        }
-                    }
-                    else if (gMouseMode == MouseMode_FlagMode) {
-                        if (cell.hadFlag) {
-                            cell.hasFlag = false;
-                        }
-                        else {
-                            cell.hasFlag = true;
-                        }
-                    }
-                }
-                else {
-                    if (cell.hasFlag) {
-                        cell.hadFlag = true;
-                    }
-                    else {
-                        cell.hadFlag = false;
-                    }
-                }
-                
-                break;
-#endif
             }
                 
             case CellState_Open:
